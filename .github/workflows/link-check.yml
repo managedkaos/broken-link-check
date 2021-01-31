@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
-  link_check:
+  check_links:
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -20,9 +20,32 @@ jobs:
         node-version: '15'
     - run: npm install broken-link-checker -g
     - name: Check ${{ matrix.label }} links
-      run: blc https://example.com ${{ matrix.options }} --recursive --ordered | tee ${{ matrix.label }}_link_report.txt
+      run: blc https://example.com ${{ matrix.options }} --recursive --ordered | tee ${{ matrix.label }}_data.txt
+    - name: Upload ${{ matrix.label }} data
+      uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.label }}_data.txt
+          path: ${{ matrix.label }}_data.txt
+  generate_report:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - label: internal
+          - label: external
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/download-artifact@v2
+      with:
+          name: ${{ matrix.label }}_data.txt
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.9.1
+    - name: Generate report for ${{ matrix.label }} links
+      run: python ./link_checker/generate_report.py ${{ matrix.label }}_data.txt | tee ${{ matrix.label }}_report.md
     - name: Upload ${{ matrix.label }} report
       uses: actions/upload-artifact@v2
-      with:
-        name: ${{ matrix.label }}_link_report.txt
-        path: ${{ matrix.label }}_link_report.txt
+        with:
+          name: ${{ matrix.label }}_report.md
+          path: ${{ matrix.label }}_report.md
+

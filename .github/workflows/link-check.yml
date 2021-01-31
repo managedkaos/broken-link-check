@@ -45,7 +45,6 @@ jobs:
       run: python ./link_checker/generate_report.py ${{ matrix.label }}_data.txt | tee ${{ matrix.label }}_report.md
     - name: Upload ${{ matrix.label }} report
       uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.label }}_report.md
-          path: ${{ matrix.label }}_report.md
-
+      with:
+        name: ${{ matrix.label }}_report.md
+        path: ${{ matrix.label }}_report.md

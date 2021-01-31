@@ -63,5 +63,5 @@ jobs:
           - label: external
     steps:
     - name: Create issue for ${{ matrix.label }} links
-      if: steps.check_release.outputs.files_exists == 'true'
+      if: steps.generate_report.outputs.${{ matrix.label }}_report_generated == 'true'
       run: echo 'TODO create issues for ${{ matrix.label }} links'

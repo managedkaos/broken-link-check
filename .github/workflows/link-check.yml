@@ -51,7 +51,8 @@ jobs:
         path: ${{ matrix.label }}_report.md
     - run: echo "::set-output name=report::${{ matrix.label }}_report"
     outputs:
-      report: ${{ steps.report.outputs.${{ matrix.label}}_report }}
+      internal_report: ${{ steps.report.outputs.internal_report }}
+      external_report: ${{ steps.report.outputs.external_report }}
   create_issues:
     needs: generate_report
     runs-on: ubuntu-latest
@@ -63,3 +64,4 @@ jobs:
     steps:
     - name: Create issue for ${{ matrix.label }} links
       run: echo 'TODO create issues for ${{ matrix.label }} links'
+

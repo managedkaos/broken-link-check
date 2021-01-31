@@ -49,9 +49,6 @@ jobs:
       with:
         name: ${{ matrix.label }}_report
         path: ${{ matrix.label }}_report.md
-    outputs:
-      artifact:
-        name: ${{ matrix.label }}_report
   create_issues:
     needs: generate_report
     runs-on: ubuntu-latest

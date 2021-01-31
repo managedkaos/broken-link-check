@@ -32,7 +32,7 @@ jobs:
       matrix:
         include:
           - label: internal
-          - label: external
+            #- label: external
     steps:
     - uses: actions/checkout@v2
     - uses: actions/download-artifact@v2

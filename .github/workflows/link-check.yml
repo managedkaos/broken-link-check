@@ -1,0 +1,13 @@
+---
+name: Link Check
+on:
+  workflow_dispatch:
+
+jobs:
+  link_check:
+    runs-on: ubuntu-latest
+    name: Link Check
+    steps:
+      - uses: elliotforbes/broken-link-checker@1.0.2
+        with:
+          url: 'https://ebwiki.org'

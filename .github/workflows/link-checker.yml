@@ -44,7 +44,7 @@ jobs:
     - name: Generate a report for ${{ matrix.label }} links
       run: python ./link_checker/generate_report.py ${{ matrix.label }}_data.txt | tee ${{ matrix.label }}_report.md
     - name: Clean up the report if its empty
-      run: find . -name ${{ matrix.label }}_report.md -size 0 -print0 | xargs -0 rm
+      run: find . -name ${{ matrix.label }}_report.md -size 0 -exec rm -v {} \; -print
     - name: Upload ${{ matrix.label }} report
       uses: actions/upload-artifact@v2
       id: report

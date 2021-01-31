@@ -133,4 +133,4 @@ jobs:
           - label: external
     steps:
     - name: Create issue for ${{ matrix.label }} links
-      run: echo 'TODO: create issues for ${{ matrix.label }} links'
+      run: echo 'create issues for ${{ matrix.label }} links'

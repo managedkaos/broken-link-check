@@ -53,6 +53,6 @@ jobs:
     - name: Create an issue for ${{ matrix.label }} links
       uses: peter-evans/create-issue-from-file@v2
       with:
-        title: An example issue
-        content-filepath: ./example-content/output.md
+        title: Latest report for broken ${{ matrix.label }} links
+        content-filepath: ${{ matrix.label }}_report.md
         labels: report, automated issue

@@ -19,7 +19,6 @@ with open(sys.argv[1], 'r') as report:
             for b in broken:
                 link, code = b.split()
                 print("|{}|{}|".format(link, code))
-            print("|----|----------|")
             print()
             source = ''
             broken = []

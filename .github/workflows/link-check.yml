@@ -23,9 +23,9 @@ jobs:
       run: blc https://example.com ${{ matrix.options }} --recursive --ordered | tee ${{ matrix.label }}_data.txt
     - name: Upload ${{ matrix.label }} data
       uses: actions/upload-artifact@v2
-        with:
-          name: ${{ matrix.label }}_data.txt
-          path: ${{ matrix.label }}_data.txt
+      with:
+        name: ${{ matrix.label }}_data.txt
+        path: ${{ matrix.label }}_data.txt
   generate_report:
     runs-on: ubuntu-latest
     strategy:

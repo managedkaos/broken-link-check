@@ -4,7 +4,6 @@ on: [push, workflow_dispatch]
 
 jobs:
   check_links:
-    id: check_links
     runs-on: ubuntu-latest
     strategy:
       matrix:
@@ -27,7 +26,6 @@ jobs:
         name: ${{ matrix.label }}_data
         path: ${{ matrix.label }}_data.txt
   generate_report:
-    id: generate_report
     needs: check_links
     runs-on: ubuntu-latest
     strategy:
@@ -44,78 +42,10 @@ jobs:
       with:
         python-version: 3.9.1
     - name: Generate report for ${{ matrix.label }} links
-      run: ls -R
-    - run: python ./link_checker/generate_report.py ${{ matrix.label }}_data.txt | tee ${{ matrix.label }}_report.md
+      run: python ./link_checker/generate_report.py ${{ matrix.label }}_data.txt | tee ${{ matrix.label }}_report.md
     - name: Upload ${{ matrix.label }} report
       uses: actions/upload-artifact@v2
-      with:
-        name: ${{ matrix.label }}_report
-        path: ${{ matrix.label }}_report.md
-    outputs:
-      artifact:
-        name: ${{ matrix.label }}_report
-  create_issues:
-    id: generate_report
-    needs: check_links
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - label: internal
-          - label: external
-    steps:
-    - name: Create issue for ${{ matrix.label }} links
-      run: echo '---
-name: Link Checker
-on:
-  workflow_dispatch:
-
-jobs:
-  check_links:
-    id: check_links
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - label: internal
-            options: --exclude-external
-          - label: external
-            options: --exclude-internal
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/setup-node@v2
-      with:
-        node-version: '15'
-    - run: npm install broken-link-checker -g
-    - name: Check ${{ matrix.label }} links
-      run: blc https://badssl.com ${{ matrix.options }} --recursive --ordered | tee ${{ matrix.label }}_data.txt
-    - name: Upload ${{ matrix.label }} data
-      uses: actions/upload-artifact@v2
-      with:
-        name: ${{ matrix.label }}_data
-        path: ${{ matrix.label }}_data.txt
-  generate_report:
-    id: generate_report
-    needs: check_links
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - label: internal
-          - label: external
-    steps:
-    - uses: actions/checkout@v2
-    - uses: actions/download-artifact@v2
-      with:
-          name: ${{ matrix.label }}_data
-    - uses: actions/setup-python@v2
-      with:
-        python-version: 3.9.1
-    - name: Generate report for ${{ matrix.label }} links
-      run: ls -R
-    - run: python ./link_checker/generate_report.py ${{ matrix.label }}_data.txt | tee ${{ matrix.label }}_report.md
-    - name: Upload ${{ matrix.label }} report
-      uses: actions/upload-artifact@v2
+      id: report
       with:
         name: ${{ matrix.label }}_report
         path: ${{ matrix.label }}_report.md
@@ -133,4 +63,4 @@ jobs:
           - label: external
     steps:
     - name: Create issue for ${{ matrix.label }} links
-      run: echo 'create issues for ${{ matrix.label }} links'
+      run: echo 'TODO create issues for ${{ matrix.label }} links'

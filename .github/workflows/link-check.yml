@@ -24,7 +24,7 @@ jobs:
     - name: Upload ${{ matrix.label }} data
       uses: actions/upload-artifact@v2
       with:
-        name: ${{ matrix.label }}_data.txt
+        name: ${{ matrix.label }}_data
         path: ${{ matrix.label }}_data.txt
   generate_report:
     runs-on: ubuntu-latest
@@ -37,12 +37,12 @@ jobs:
     - uses: actions/checkout@v2
     - uses: actions/download-artifact@v2
       with:
-          name: ${{ matrix.label }}_data.txt
+          name: ${{ matrix.label }}_data
     - uses: actions/setup-python@v2
       with:
         python-version: 3.9.1
     - name: Generate report for ${{ matrix.label }} links
-      run: python ./link_checker/generate_report.py ${{ matrix.label }}_data.txt | tee ${{ matrix.label }}_report.md
+      run: python ./link_checker/generate_report.py ${{ matrix.label }}_data/${{ matrix.label }}_data.txt | tee ${{ matrix.label }}_report.md
     - name: Upload ${{ matrix.label }} report
       uses: actions/upload-artifact@v2
       with:

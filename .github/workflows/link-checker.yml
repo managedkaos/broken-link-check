@@ -41,7 +41,7 @@ jobs:
     - uses: actions/setup-python@v2
       with:
         python-version: 3.9.1
-    - name: Generate report for ${{ matrix.label }} links
+    - name: Generate a report for ${{ matrix.label }} links
       run: python ./link_checker/generate_report.py ${{ matrix.label }}_data.txt | tee ${{ matrix.label }}_report.md
     - name: Upload ${{ matrix.label }} report
       uses: actions/upload-artifact@v2
@@ -49,19 +49,9 @@ jobs:
       with:
         name: ${{ matrix.label }}_report
         path: ${{ matrix.label }}_report.md
-    - run: echo "::set-output name=${{ matrix.label }}_report_generated::false"
-    outputs:
-      internal_report: ${{ steps.report.outputs.internal_report_generated }}
-      external_report: ${{ steps.report.outputs.external_report_generated }}
-  create_issues:
-    needs: generate_report
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        include:
-          - label: internal
-          - label: external
-    steps:
-    - name: Create issue for ${{ matrix.label }} links
-      if: steps.generate_report.outputs.${{ matrix.label }}_report_generated == 'true'
-      run: echo 'TODO create issues for ${{ matrix.label }} links'
+    - name: Create an issue for ${{ matrix.label }} links
+      uses: peter-evans/create-issue-from-file@v2
+      with:
+        title: An example issue
+        content-filepath: ./example-content/output.md
+        labels: report, automated issue

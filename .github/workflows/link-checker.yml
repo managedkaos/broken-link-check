@@ -49,7 +49,7 @@ jobs:
       with:
         name: ${{ matrix.label }}_report
         path: ${{ matrix.label }}_report.md
-    - run: echo "::set-output name=${{ matrix.label }}_report_generated::true"
+    - run: echo "::set-output name=${{ matrix.label }}_report_generated::false"
     outputs:
       internal_report: ${{ steps.report.outputs.internal_report_generated }}
       external_report: ${{ steps.report.outputs.external_report_generated }}

@@ -19,7 +19,7 @@ jobs:
         node-version: '15'
     - run: npm install broken-link-checker -g
     - name: Check ${{ matrix.label }} links
-      run: blc https://badssl.com ${{ matrix.options }} --recursive --ordered | tee ${{ matrix.label }}_data.txt
+      run: blc https://ebwiki.org ${{ matrix.options }} --recursive --ordered | tee ${{ matrix.label }}_data.txt
     - name: Upload ${{ matrix.label }} data
       uses: actions/upload-artifact@v2
       with:

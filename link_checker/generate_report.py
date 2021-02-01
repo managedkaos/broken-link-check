@@ -3,6 +3,7 @@ import re, sys
 
 source = ''
 broken = []
+count  = 0
 
 with open(sys.argv[1], 'r') as report:
     for line in report:
@@ -13,12 +14,12 @@ with open(sys.argv[1], 'r') as report:
             broken.append(re.sub('├─BROKEN─ ', '', line.strip()))
 
         if "Finished!" in line and len(broken) > 0:
-            print("# {}".format(source))
-            print("|Broken Link|Error Code|")
-            print("|----|----------|")
+            print("|#|Source|Broken Link|Error Code|")
+            print("|-|------|-----------|----------|")
             for b in broken:
+                count = count + 1
                 link, code = b.split()
-                print("|{}|{}|".format(link, code))
+                print("|{}|{}|{}|{}|".format(count, source, link, code))
             print()
             source = ''
             broken = []

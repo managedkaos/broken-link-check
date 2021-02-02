@@ -21,6 +21,5 @@ with open(sys.argv[1], 'r') as report:
                 count = count + 1
                 link, code = b.split()
                 print("|{}|{}|{}|{}|".format(count, source, link, code))
-            print()
             source = ''
             broken = []
